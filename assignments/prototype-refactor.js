@@ -8,15 +8,7 @@ Prototype Refactor
 2. Your goal is to refactor all of this code to use ES6 Classes. The console.log() statements should still return what is expected of them.
 
 */
-/*
-  Object oriented design is commonly used in video games.  For this part of the assignment you will be implementing several constructor functions with their correct inheritance hierarchy.
 
-  In this file you will be creating three constructor functions: GameObject, CharacterStats, Humanoid.
-
-  At the bottom of this file are 3 objects that all end up inheriting from Humanoid.  Use the objects at the bottom of the page to test your constructor functions.
-  
-  Each constructor function has unique properties and methods that are defined in their block comments below:
-*/
 /*
   === GameObject ===
   * createdAt
@@ -32,18 +24,7 @@ class GameObject {
         return `${this.name} was removed from the game.`;
     }
 }
-  
 
-//   function GameObject (attributes) {
-//     this.createdAt = attributes.createdAt;
-//     this.dimensions = attributes.dimensions;
-//   }
-  
-//   GameObject.prototype.destroy = function() {
-//     return `${this.name} was removed from the game.`;
-//   }
-  
-//   CharacterStats.prototype = Object.create(GameObject.prototype)
   
   
   /*
@@ -67,19 +48,6 @@ class GameObject {
       }
   }
   
-//   function CharacterStats (charAttributes) {
-//     GameObject.call(this, charAttributes);
-//     this.maxHP = charAttributes.maxHP;
-//     this.healthPoints = charAttributes.healthPoints;
-//     this.name = charAttributes.name;
-//   }
-  
-//   CharacterStats.prototype.takeDamage = function () {
-//     return `${this.name} took damage`;
-//   }
-  
-//   Humanoid.prototype = Object.create(CharacterStats.prototype);
-  
   /*
     === Humanoid (Having an appearance or character resembling that of a human.) ===
     * team
@@ -102,18 +70,6 @@ class GameObject {
         return `${this.name} offers a greeting in ${this.language}`;
       }
   }
-  
-//   function Humanoid (humanAttributes) {
-//     CharacterStats.call(this, humanAttributes);
-//     this.team = humanAttributes.team;
-//     this.weapons = humanAttributes.weapons;
-//     this.language = humanAttributes.language;
-//   }
-  
-//   Humanoid.prototype.greet = function () {
-//     return `${this.name} offers a greeting in ${this.language}`;
-//   }
-  
    
   /*
     * Inheritance chain: GameObject -> CharacterStats -> Humanoid
@@ -122,36 +78,37 @@ class GameObject {
   */
   
   //Hero and Villain
+
+  class Hero extends Humanoid {
+      constructor(heroAttributes) {
+          super(heroAttributes);
+      }
+
+      attack (enemy) {
+        enemy.healthPoints -= 10;
   
-//   Hero.prototype = Object.create(Humanoid.prototype);
-//   Villain.prototype = Object.create(Humanoid.prototype);
+        if (enemy.healthPoints <= 0) {
+            return `${this.name} swings 2h axe at ${enemy.name} for 10 dmg!\n${this.name} fatally wounds ${enemy.name} in mortal combat!\n${enemy.destroy()}`;
+        };
+        
+        return `${this.name} swings 2h axe at ${enemy.name} for 10 dmg! \n${enemy.name} has ${enemy.healthPoints}/${enemy.maxHP} health left.`;
+      }
+  }
+
+  class Villain extends Humanoid {
+      constructor(villainAttributes) {
+          super(villainAttributes);
+      }
+
+      attack (enemy) {
+        enemy.healthPoints -= 5;
   
-//   function Hero (heroAttributes) {
-//     Humanoid.call(this, heroAttributes);
-//   }
-  
-//   Hero.prototype.attack = function (enemy) {
-//     enemy.healthPoints -= 10;
-  
-//     if (enemy.healthPoints <= 0) {
-//       return `${this.name} swings 2h axe at ${enemy.name} for 10 dmg!\n${this.name} fatally wounds ${enemy.name} in mortal combat!\n${enemy.destroy()}`;
-//     };
-//     return `${this.name} swings 2h axe at ${enemy.name} for 10 dmg! \n${enemy.name} has ${enemy.healthPoints}/${enemy.maxHP} health left.`;
-//   }
-  
-//   function Villain (villainAttributes) {
-//     Humanoid.call(this, villainAttributes);
-//   }
-  
-//   Villain.prototype.attack = function (enemy) {
-//     enemy.healthPoints -= 5;
-  
-//     if (enemy.healthPoints <= 0) {
-//       return `${this.name} shoots wand at ${enemy.name} for 5 dmg!\n${this.name} fatally wounds ${enemy.name} in mortal combat!\n${enemy.destroy()}`;
-//     }
-//     return `${this.name} shoots wand at ${enemy.name} for 5 dmg! \n${enemy.name} has ${enemy.healthPoints}/${enemy.maxHP} health left.`;
-//   }
-  
+        if (enemy.healthPoints <= 0) {
+            return `${this.name} shoots wand at ${enemy.name} for 5 dmg!\n${this.name} fatally wounds ${enemy.name} in mortal combat!\n${enemy.destroy()}`;
+        }
+        return `${this.name} shoots wand at ${enemy.name} for 5 dmg! \n${enemy.name} has ${enemy.healthPoints}/${enemy.maxHP} health left.`;    
+      }
+  }  
   
   // Test you work by un-commenting these 3 objects and the list of console logs below:
   
@@ -208,43 +165,43 @@ class GameObject {
   
     // Hero
   
-    // const kratos = new Hero({
-    //   createdAt: new Date(),
-    //   dimensions: {
-    //     length: 1,
-    //     width: 3,
-    //     height: 6,
-    //   },
-    //   healthPoints: 20,
-    //   maxHP: 20,
-    //   name: 'Kratos',
-    //   team: 'none',
-    //   weapons: [
-    //     'Axe',
-    //     'Fists',
-    //   ],
-    //   language: 'Common Tongue',
-    // });
+    const kratos = new Hero({
+      createdAt: new Date(),
+      dimensions: {
+        length: 1,
+        width: 3,
+        height: 6,
+      },
+      healthPoints: 20,
+      maxHP: 20,
+      name: 'Kratos',
+      team: 'none',
+      weapons: [
+        'Axe',
+        'Fists',
+      ],
+      language: 'Common Tongue',
+    });
   
     // // Villain
   
-    // const rasputin = new Villain({
-    //   createdAt: new Date(),
-    //   dimensions: {
-    //     length: 1,
-    //     width: 2,
-    //     height: 4,
-    //   },
-    //   healthPoints: 10,
-    //   maxHP: 20,
-    //   name: 'Rasputin',
-    //   team: 'House of Ni',
-    //   weapons: [
-    //     'Wand',
-    //     'Dagger',
-    //   ],
-    //   language: 'Elder Tongue',
-    // });
+    const rasputin = new Villain({
+      createdAt: new Date(),
+      dimensions: {
+        length: 1,
+        width: 2,
+        height: 4,
+      },
+      healthPoints: 10,
+      maxHP: 20,
+      name: 'Rasputin',
+      team: 'House of Ni',
+      weapons: [
+        'Wand',
+        'Dagger',
+      ],
+      language: 'Elder Tongue',
+    });
   
     let newLine = '\n'
   
@@ -259,10 +216,10 @@ class GameObject {
     console.log(mage.takeDamage()); // Bruce took damage.
     console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
   
-    // console.log(rasputin.attack(kratos));
-    // console.log(newLine);
-    // console.log(rasputin.attack(kratos));
-    // console.log(newLine);
-    // console.log(kratos.attack(rasputin));
+    console.log(rasputin.attack(kratos));
+    console.log(newLine);
+    console.log(rasputin.attack(kratos));
+    console.log(newLine);
+    console.log(kratos.attack(rasputin));
     
   
