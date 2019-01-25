@@ -28,6 +28,24 @@ class Instructor extends Person {
     grade (student, subject) {
         return `${student.name} receives a perfect score on ${subject}`;
     }
+
+    grade (student) {
+       let points = Math.floor(Math.random() * 21);
+       let random = Math.floor(Math.random() * 2) // Returns a random integer between 0 or 1 to determine if points will be positive or negative
+
+       const originalGrade = student.grade;
+
+       if (random === 0) {
+           let newGrade = student.grade += points;
+
+           console.log(`${student.name}'s grade of ${originalGrade} was increased by ${points} points, final grade is ${newGrade}.`)
+
+           
+       } else {
+           let newGrade = student.grade -= points;
+           console.log(`${student.name}'s grade of ${originalGrade} was decreased by ${points} points, final grade is ${newGrade}.`)
+       }
+    }
 }
 
 class ProjectMananger extends Instructor {
@@ -52,6 +70,7 @@ class Student extends Person {
         this.previousBackground = attributes.previousBackground;
         this.className = attributes.className;
         this.favSubjects = attributes.favSubjects;
+        this.grade = attributes.grade;
     }
 
     listsSubjects () {
@@ -66,6 +85,14 @@ class Student extends Person {
 
     sprintChallenge (subject) {
         return `${this.name} has begun sprint challenge on ${subject}`;
+    }
+
+    graduate () {
+        if (this.grade >= 70) {
+            return `${this.name} graduated!`
+        } else {
+            return `Keep trying, ${this.name}!`
+        }
     }
 }
 
@@ -100,7 +127,8 @@ const fred = new Instructor({
     gender: 'male',
     previousBackground: 'Plumber',
     className: 'FSW20',
-    favSubjects: ['HTML', 'CSS', 'Java']
+    favSubjects: ['HTML', 'CSS', 'Java'],
+    grade: 65
   });
 
   const student_2 = new Student({
@@ -110,7 +138,8 @@ const fred = new Instructor({
     gender: 'female',
     previousBackground: 'Pilot',
     className: 'FSWPT1',
-    favSubjects: ['Biology', 'History', 'Infosec']
+    favSubjects: ['Biology', 'History', 'Infosec'],
+    grade: 77
   });
 
 // PMs
@@ -133,15 +162,20 @@ const pm_2 = new ProjectMananger ({
     favInstructor: 'Cameron'
 });
 
-console.log(fred.speak());
-console.log(fred.demo('react'));
+// console.log(fred.speak());
+// console.log(fred.demo('react'));
 
-console.log(bob.favLanguage);
-console.log(bob.grade(student_2, 'Recursion I'));
+// console.log(bob.favLanguage);
+// console.log(bob.grade(student_2, 'Recursion I'));
 
-student_1.listsSubjects();
-console.log(student_1.PRAssignment('React I'));
-console.log(student_2.sprintChallenge('Infosec'));
+// student_1.listsSubjects();
+// console.log(student_1.PRAssignment('React I'));
+// console.log(student_2.sprintChallenge('Infosec'));
 
-console.log(pm_1.standUp('cs2_ralph'));
-console.log(pm_1.debugsCode(student_1, 'JavaScript I'));
+// console.log(pm_1.standUp('cs2_ralph'));
+// console.log(pm_1.debugsCode(student_1, 'JavaScript I'));
+
+// stretch
+
+fred.grade(student_1);
+console.log(student_1.graduate());
